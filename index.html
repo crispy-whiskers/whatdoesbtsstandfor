@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang='en'>
+    <head>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            h1{
+                font-size: 50px;
+                text-align: center;
+                font-family: Arial;
+            }
+            .img{
+                display: block;
+                margin-left: auto;
+                margin-right: auto;
+            }
+            p{
+                text-align: center;
+            }
+            .input{
+                text-align: center;
+            }
+            input{
+                width:180px;
+                height: 50px;
+            }
+            
+        </style>
+       
+        <title>whatdoesbtsstandfor</title>
+    </head>
+    <body class="notransition">
+        <div class="center-wrapper">
+            <div class="center">
+                
+                <h1>What does BTS stand for?</h1>
+                <img class="img" src="/bts.jpg" height="200px" width="200px">
+                <p>All these years I have heard of BTS everywhere. I'm not a KPop fan, and I never will be.</p>
+                <p>I absolutely refuse to conduct research of any kind pertaining to them, so I thought I'll decide for myself what BTS stands for.</p>
+                <div class = "input" id='input'>
+                    <input id="clickMe" type="button" value="Tell me what BTS stands for" onclick="loadDoc();" />
+
+                </div>
+
+            </div>
+        </div>
+         <script>
+        
+        //adj adj noun 
+        //adv adj noun
+        //adj noun verb
+        //noun adverb verb
+        const adj =0;
+        const adv =1;
+        const noun=2;
+        const verb=3;
+        
+        
+            var words = []
+        
+            function sleep(ms) {
+                return new Promise(resolve => setTimeout(resolve, ms));
+            }
+            
+            async function loadDoc(){
+                words=[]
+                await getWords('adj');
+                await getWords('adv');
+                await getWords('noun');
+                await getWords('verb');
+                await sleep(500);
+                
+                //console.log(words.length)
+                //console.log(words[Math.floor(Math.random()*words.length)][23]) //debug statements
+                
+                var out = "<input id=\"clickMe\" type=\"button\" value=\"Tell me what BTS stands for\" onclick=\"loadDoc();\" />\n<br>"
+                //button to refresh
+                
+                switch(Math.floor(Math.random()*words.length)){
+                    case 0: //adj adj noun
+                        var a = getStartW('B', words[adj]);
+                        var b = getStartW('T', words[adj]);
+                        var n = getStartW('S',words[noun]);
+                        
+                        a = a[Math.floor(Math.random()*a.length)];
+                        b = b[Math.floor(Math.random()*b.length)];
+                        n = n[Math.floor(Math.random()*n.length)];
+                        out+='<br><p>'+(a+' '+ b+' '+n)+'</p>';
+                        
+                        break;
+                    case 1: // adv adj noun
+                        var av = getStartW('B', words[adv]);
+                        var a = getStartW('T', words[adj]);
+                        var n = getStartW('S',words[noun]);
+                        
+                        av = av[Math.floor(Math.random()*w.length)];
+                        a = a[Math.floor(Math.random()*a.length)];
+                        n = n[Math.floor(Math.random()*n.length)];
+                        out+='<br><p>'+(av+' '+ a+' '+n)+'</p>';
+                        
+                        break;
+                    case 2: // adj noun verb
+                        var a = getStartW('B', words[adj]);
+                        var n = getStartW('T', words[noun]);
+                        var v = getStartW('S',words[verb]);
+                        
+                        a = a[Math.floor(Math.random()*a.length)];
+                        n = n[Math.floor(Math.random()*n.length)];
+                        v = v[Math.floor(Math.random()*v.length)];
+                        out+='<br><p>'+(a+' '+ n+' '+v)+'</p>';
+                        break;
+                    case 3: // noun adv verb
+                        var n = getStartW('B', words[noun]);
+                        var a = getStartW('T', words[adv]);
+                        var v = getStartW('S',words[verb]);
+                        
+                        n = n[Math.floor(Math.random()*n.length)];
+                        a = a[Math.floor(Math.random()*a.length)];
+                        v = v[Math.floor(Math.random()*v.length)];
+                        out+='<br><p>'+(n+' '+ a+' '+v)+'</p>';
+                        break;
+                    
+                }
+                //console.log(out);
+                
+                
+                document.getElementById('input').innerHTML = out;
+
+                
+                
+            }
+            function getWords(name) {
+                var text = "";
+                var xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function() {
+                    if (this.readyState == 4 && this.status == 200) {
+                        text = this.responseText;
+                        //console.log(text)
+                        words.push(text.split("\n"))
+                    }
+                };
+                xhttp.open("GET", "conv.data."+name, true);
+                xhttp.send();
+            }
+            
+            function getStartW(prefix, list){
+                newlist = []
+                for(let k=0;k<list.length;k++){
+                    if(list[k].toUpperCase().startsWith(prefix))
+                        newlist.push(list[k])
+                }
+                return newlist;
+                
+            }
+            
+        </script>
+    </body>
+    
+</html>
+
