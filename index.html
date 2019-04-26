@@ -24,6 +24,10 @@
                 width:180px;
                 height: 50px;
             }
+            #linktext{
+                text-align: left;
+                font-size: 12px;
+            }
             
         </style>
        
@@ -31,8 +35,11 @@
     </head>
     <body class="notransition">
         <div class="center-wrapper">
+            <div>
+               <p id='linktext'> For something useful, visit the<a href='acronym.html'> acronym generator</a></p>
+            </div>
             <div class="center">
-                
+                <!-- hey stop looking at my code !--> 
                 <h1>What does BTS stand for?</h1>
                 <img class="img" src="/bts.jpg" height="200px" width="200px">
                 <p>All these years I have heard of BTS everywhere. I'm not a KPop fan, and I never will be.</p>
@@ -61,7 +68,6 @@
             function sleep(ms) {
                 return new Promise(resolve => setTimeout(resolve, ms));
             }
-            
             async function loadDoc(){
                 words=[]
                 await getWords('adj');
@@ -69,6 +75,9 @@
                 await getWords('noun');
                 await getWords('verb');
                 await sleep(500);
+                //this way, i convert async to sync by waiting for getWords to finish with sleep
+                
+                
                 
                 //console.log(words.length)
                 //console.log(words[Math.floor(Math.random()*words.length)][23]) //debug statements
@@ -78,46 +87,46 @@
                 
                 switch(Math.floor(Math.random()*words.length)){
                     case 0: //adj adj noun
-                        var a = getStartW('B', words[adj]);
-                        var b = getStartW('T', words[adj]);
-                        var n = getStartW('S',words[noun]);
+                        var adjs = getStartW('B', words[adj]);
+                        var adjs2 = getStartW('T', words[adj]);
+                        var nouns = getStartW('S',words[noun]);
                         
-                        a = a[Math.floor(Math.random()*a.length)];
-                        b = b[Math.floor(Math.random()*b.length)];
-                        n = n[Math.floor(Math.random()*n.length)];
-                        out+='<br><p>'+(a+' '+ b+' '+n)+'</p>';
+                        adjs = adjs[Math.floor(Math.random()*adjs.length)];
+                        adjs2 = adjs2[Math.floor(Math.random()*adjs2.length)];
+                        nouns = nouns[Math.floor(Math.random()*nouns.length)];
+                        out+='<br><p>'+(adjs+' '+ adjs2+' '+nouns)+'</p>';
                         
                         break;
                     case 1: // adv adj noun
-                        var av = getStartW('B', words[adv]);
-                        var a = getStartW('T', words[adj]);
-                        var n = getStartW('S',words[noun]);
+                        var w = getStartW('B', words[adv]);
+                        var adjs2 = getStartW('T', words[adj]);
+                        var nouns = getStartW('S',words[noun]);
                         
-                        av = av[Math.floor(Math.random()*w.length)];
-                        a = a[Math.floor(Math.random()*a.length)];
-                        n = n[Math.floor(Math.random()*n.length)];
-                        out+='<br><p>'+(av+' '+ a+' '+n)+'</p>';
+                        w = w[Math.floor(Math.random()*w.length)];
+                        adjs2 = adjs2[Math.floor(Math.random()*adjs2.length)];
+                        nouns = nouns[Math.floor(Math.random()*nouns.length)];
+                        out+='<br><p>'+(w+' '+ adjs2+' '+nouns)+'</p>';
                         
                         break;
                     case 2: // adj noun verb
-                        var a = getStartW('B', words[adj]);
-                        var n = getStartW('T', words[noun]);
-                        var v = getStartW('S',words[verb]);
+                        var w = getStartW('B', words[adj]);
+                        var adjs2 = getStartW('T', words[noun]);
+                        var nouns = getStartW('S',words[verb]);
                         
-                        a = a[Math.floor(Math.random()*a.length)];
-                        n = n[Math.floor(Math.random()*n.length)];
-                        v = v[Math.floor(Math.random()*v.length)];
-                        out+='<br><p>'+(a+' '+ n+' '+v)+'</p>';
+                        w = w[Math.floor(Math.random()*w.length)];
+                        adjs2 = adjs2[Math.floor(Math.random()*adjs2.length)];
+                        nouns = nouns[Math.floor(Math.random()*nouns.length)];
+                        out+='<br><p>'+(w+' '+ adjs2+' '+nouns)+'</p>';
                         break;
                     case 3: // noun adv verb
-                        var n = getStartW('B', words[noun]);
-                        var a = getStartW('T', words[adv]);
-                        var v = getStartW('S',words[verb]);
+                        var w = getStartW('B', words[noun]);
+                        var adjs2 = getStartW('T', words[adv]);
+                        var nouns = getStartW('S',words[verb]);
                         
-                        n = n[Math.floor(Math.random()*n.length)];
-                        a = a[Math.floor(Math.random()*a.length)];
-                        v = v[Math.floor(Math.random()*v.length)];
-                        out+='<br><p>'+(n+' '+ a+' '+v)+'</p>';
+                        w = w[Math.floor(Math.random()*w.length)];
+                        adjs2 = adjs2[Math.floor(Math.random()*adjs2.length)];
+                        nouns = nouns[Math.floor(Math.random()*nouns.length)];
+                        out+='<br><p>'+(w+' '+ adjs2+' '+nouns)+'</p>';
                         break;
                     
                 }
@@ -125,12 +134,17 @@
                 
                 
                 document.getElementById('input').innerHTML = out;
-
+                //change html
                 
                 
             }
-            function getWords(name) {
-                var text = "";
+            /**********
+            
+            stolen from a stackoverflow answer.
+            
+            **********/
+            function getWords(name) { 
+                var text = ""; 
                 var xhttp = new XMLHttpRequest();
                 xhttp.onreadystatechange = function() {
                     if (this.readyState == 4 && this.status == 200) {

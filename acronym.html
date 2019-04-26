@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang='en'>
+    <head>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            #field{
+                width:200px;
+            }
+            #main{
+                text-align: center;
+            }
+            
+        </style>
+    </head>
+    <body>
+        
+        <p>Go back to my <a href='index.html'>useless site</a></p>
+        
+        
+        <div id = 'main' class='main'>
+            <h1>Acronym generator!</h1>
+            <p>Just put in a word to make an acronym out of</p>
+            <input id ='field' type='text'/>
+            <br>
+            <input type='button' value='Make an acronym!' onClick='generate();' />
+            <div id='output'>
+                
+                
+                
+            </div>
+        </div>
+        
+        
+        
+        
+        <script>
+        const adj =0;
+        //const adv =1;
+        const noun=1;
+        //const verb=3;
+        var words=[];
+        
+        
+        function sleep(ms) {
+                return new Promise(resolve => setTimeout(resolve, ms));
+        }
+        
+        
+        async function generate(){
+            await getWords('adj');
+            await getWords('noun');
+            await sleep(500);
+            
+            
+            var lists = [];
+            var string = document.getElementById('field').value;
+            string = string.split('');
+            var out = '';
+            console.log(words);
+            for(let k=0;k<string.length;k++){
+                if(k==string.length-1)
+                var hold = getStartW(string[k], words[noun]);
+                else
+                var hold = getStartW(string[k], words[adj]);
+                
+                hold = hold[Math.floor(Math.random()*hold.length)];
+                
+                out+=hold+' ';
+                //console.log(out);
+            }
+            
+            document.getElementById('output').innerHTML = '<p>'+document.getElementById('field').value+' stands for '+out+'</p>';
+            
+            
+        } 
+        
+        
+        function getWords(name) { 
+                var text = ""; 
+                var xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function() {
+                    if (this.readyState == 4 && this.status == 200) {
+                        text = this.responseText;
+                        //console.log(text)
+                        words.push(text.split("\n"))
+                    }
+                };
+                xhttp.open("GET", "conv.data."+name, true);
+                xhttp.send();
+            }
+            
+            function getStartW(prefix, list){
+                //console.log(prefix+' yeet')
+                newlist = []
+                for(let k=0;k<list.length;k++){
+                    //console.log(list[k]);
+                    if(list[k].toUpperCase().startsWith(prefix.toUpperCase()))
+                        newlist.push(list[k])
+                }
+                //console.log(newlist);
+                return newlist;
+                
+            }
+            
+        let input = document.getElementById('field');
+        input.addEventListener('keyup', () => {
+            if (input.value.length > 30) {
+                input.value = input.value.slice(0, 30);
+            }
+        })
+            
+        </script>
+    </body>
+</html>
