@@ -4,7 +4,7 @@ Naturally, I can't be bothered to interest myself in those kinds of matters. How
 
 What does BTS stand for? 
 
-Yeah yeah, there's probably some dumb answer to that on google, I heard it stands for some wierd stuff in korean, but I'm not korean.
+Yeah yeah, there's probably some dumb answer to that on google, I heard it stands for some wierd stuff in korean, but I'm not korean and I refuse to take the easy way out of things.
 
 Right now, this project is hosted at https://whatdoesbtsstandfor.sites.tjhsst.edu
 
